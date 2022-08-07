@@ -1,0 +1,39 @@
+name: workflow_call diff_env
+
+on: 
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Name of the environment'
+        required: true
+        default: 'dev'
+        type: string
+      
+      ENV_USERNAME:
+        description: 'Username '
+        required: true
+        type: string
+
+      ENV_PASS:
+        description: 'Password'
+        required: true
+        type: string
+
+
+jobs:
+  
+  Print_Job:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      ENV_USERNAME: ${{ secrets.ENV_USERNAME }}
+      ENV_PASS: ${{ secrets.ENV_PASS }}
+
+    steps:
+      - name: Checks-out
+        uses: actions/checkout@v3
+
+      - name: Print Details
+        run: |
+          echo "I am running in Dev environment"
+          echo "User Name: $ENV_USERNAME Pass: $ENV_PASS"
